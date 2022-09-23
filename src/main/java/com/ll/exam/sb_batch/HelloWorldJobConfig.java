@@ -31,15 +31,33 @@ public class HelloWorldJobConfig {
     @JobScope
     public Step helloWorldStep1() {
         return stepBuilderFactory.get("helloWorldStep1")
-                .tasklet(helloWorldTasklet())
+                .tasklet(helloWorldStep1Tasklet())
                 .build();
     }
 
     @Bean
     @StepScope
-    public Tasklet helloWorldTasklet() {
+    public Tasklet helloWorldStep1Tasklet() {
         return (contribution, chunkContext) -> {
-            System.out.println("HELLO WORLD!");
+            System.out.println("HELLO WORLD Tasklet 1!");
+
+            return RepeatStatus.FINISHED;
+        };
+    }
+
+    @Bean
+    @JobScope
+    public Step helloWorldStep2() {
+        return stepBuilderFactory.get("helloWorldStep2")
+                .tasklet(helloWorldStep2Tasklet())
+                .build();
+    }
+
+    @Bean
+    @StepScope
+    public Tasklet helloWorldStep2Tasklet() {
+        return (contribution, chunkContext) -> {
+            System.out.println("HELLO WORLD Tasklet 2!");
 
             return RepeatStatus.FINISHED;
         };
