@@ -3,6 +3,7 @@ package com.ll.exam.sb_batch.app.order.service;
 import com.ll.exam.sb_batch.app.cart.entity.CartItem;
 import com.ll.exam.sb_batch.app.cart.service.CartService;
 import com.ll.exam.sb_batch.app.member.entity.Member;
+import com.ll.exam.sb_batch.app.member.service.MemberService;
 import com.ll.exam.sb_batch.app.order.entity.Order;
 import com.ll.exam.sb_batch.app.order.entity.OrderItem;
 import com.ll.exam.sb_batch.app.order.repository.OrderRepository;
@@ -17,6 +18,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class OrderService {
+    private final MemberService memberService;
     private final CartService cartService;
     private final OrderRepository orderRepository;
 
@@ -59,4 +61,32 @@ public class OrderService {
 
         return order;
     }
+
+    @Transactional
+    public void payByRestCashOnly(Order order) {
+        Member orderer = order.getMember();
+
+        long restCash = orderer.getRestCash();
+
+        int payPrice = order.calculatePayPrice();
+
+        if (payPrice > restCash) {
+            throw new RuntimeException("예치금이 부족합니다.");
+        }
+
+        memberService.addCash(orderer, payPrice * -1, "주문결제__예치금결제");
+
+        order.setPaymentDone();
+        orderRepository.save(order);
+    }
+
+    @Transactional
+    public void refund(Order order) {
+        int payPrice = order.getPayPrice();
+        memberService.addCash(order.getMember(), payPrice, "주문환불__예치금환불");
+
+        order.setRefundDone();
+        orderRepository.save(order);
+    }
+
 }
