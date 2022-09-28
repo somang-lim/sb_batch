@@ -1,6 +1,6 @@
-package com.ll.exam.sb_batch.app.backupedProduct.repository;
+package com.ll.exam.sb_batch.app.product.repository;
 
-import com.ll.exam.sb_batch.app.backupedProduct.entity.ProductBackup;
+import com.ll.exam.sb_batch.app.product.entity.ProductBackup;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

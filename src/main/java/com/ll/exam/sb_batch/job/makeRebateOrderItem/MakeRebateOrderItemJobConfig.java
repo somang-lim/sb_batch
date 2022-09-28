@@ -60,8 +60,8 @@ public class MakeRebateOrderItemJobConfig {
                 .build();
     }
 
-    @StepScope
     @Bean
+    @StepScope
     public RepositoryItemReader<OrderItem> orderItemReader() {
         return new RepositoryItemReaderBuilder<OrderItem>()
                 .name("orderItemReader")
@@ -73,14 +73,14 @@ public class MakeRebateOrderItemJobConfig {
                 .build();
     }
 
-    @StepScope
     @Bean
+    @StepScope
     public ItemProcessor<OrderItem, RebateOrderItem> orderItemToRebateOrderItemProcessor() {
         return orderItem -> new RebateOrderItem(orderItem);
     }
 
-    @StepScope
     @Bean
+    @StepScope
     public ItemWriter<RebateOrderItem> rebateOrderItemWriter() {
         return items -> items.forEach(item -> {
             RebateOrderItem oldRebateOrderItem = rebateOrderItemRepository.findByOrderItemId(item.getOrderItem().getId()).orElse(null);

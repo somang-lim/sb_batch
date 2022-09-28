@@ -1,7 +1,7 @@
 package com.ll.exam.sb_batch.job.productBackup;
 
-import com.ll.exam.sb_batch.app.backupedProduct.entity.ProductBackup;
-import com.ll.exam.sb_batch.app.backupedProduct.repository.ProductBackupRepository;
+import com.ll.exam.sb_batch.app.product.entity.ProductBackup;
+import com.ll.exam.sb_batch.app.product.repository.ProductBackupRepository;
 import com.ll.exam.sb_batch.app.product.entity.Product;
 import com.ll.exam.sb_batch.app.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
