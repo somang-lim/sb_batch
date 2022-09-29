@@ -6,6 +6,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
-//    Page<OrderItem> findAllByLessThan(long id, Pageable pageable);
-    Page<OrderItem> findAllByIdBetween(long less, long greater, Pageable pageable);
+    Page<OrderItem> findAllByIdLessThan(long id, Pageable pageable);
+    Page<OrderItem> findAllByIdBetween(long fromId, long toId, Pageable pageable);
 }

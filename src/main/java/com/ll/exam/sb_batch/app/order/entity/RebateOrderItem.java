@@ -1,8 +1,6 @@
 package com.ll.exam.sb_batch.app.order.entity;
 
 import com.ll.exam.sb_batch.app.base.entity.BaseEntity;
-import com.ll.exam.sb_batch.app.order.entity.Order;
-import com.ll.exam.sb_batch.app.order.entity.OrderItem;
 import com.ll.exam.sb_batch.app.product.entity.ProductOption;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -58,6 +56,7 @@ public class RebateOrderItem extends BaseEntity {
     private int refundPrice; // 환불금액
     private int refundQuantity; // 환불한 개수
     private boolean isPaid; // 결제여부
+    private LocalDateTime payDate; // 결제날짜
 
     // 상품
     private String productName;
@@ -89,6 +88,7 @@ public class RebateOrderItem extends BaseEntity {
         refundPrice = orderItem.getRefundPrice();
         refundQuantity = orderItem.getRefundQuantity();
         isPaid = orderItem.isPaid();
+        payDate = orderItem.getPayDate();
 
         // 상품 추가 데이터
         productName = orderItem.getProductOption().getProduct().getName();
