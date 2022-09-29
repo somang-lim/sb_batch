@@ -17,6 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import java.time.LocalDateTime;
+
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -61,6 +63,9 @@ public class RebateOrderItem extends BaseEntity {
     private String productOptionDisplayColor;
     private String productOptionDisplaySize;
 
+    // 주문 시간
+    private LocalDateTime orderItemCreateDate;
+
     public RebateOrderItem(OrderItem orderItem) {
         this.orderItem = orderItem;
         order = orderItem.getOrder();
@@ -75,7 +80,7 @@ public class RebateOrderItem extends BaseEntity {
         refundQuantity = orderItem.getRefundQuantity();
         isPaid = orderItem.isPaid();
 
-        // 상품
+        // 상품 추가 데이터
         productName = orderItem.getProductOption().getProduct().getName();
 
         // 사품 옵션 추가 데이터
@@ -83,5 +88,8 @@ public class RebateOrderItem extends BaseEntity {
         productOptionSize = orderItem.getProductOption().getSize();
         productOptionDisplayColor = orderItem.getProductOption().getDisplayColor();
         productOptionDisplaySize = orderItem.getProductOption().getDisplaySize();
+
+        // 주문 시간 추가 데이터
+        orderItemCreateDate = orderItem.getCreateDate();
     }
 }
