@@ -67,7 +67,7 @@ public class RebateOrderItem extends BaseEntity {
             @AttributeOverride(name = "color", column = @Column(name = "product_option_color")),
             @AttributeOverride(name = "size", column = @Column(name = "product_option_size")),
             @AttributeOverride(name = "displayColor", column = @Column(name = "product_option_display_color")),
-            @AttributeOverride(name = "displaySize", column = @Column(name = "product_option_display_size")),
+            @AttributeOverride(name = "displaySize", column = @Column(name = "product_option_display_size"))
 
     })
     private RebateOrderItem.EmbProductOption embProductOption;
@@ -102,7 +102,7 @@ public class RebateOrderItem extends BaseEntity {
 
     @Embeddable
     @NoArgsConstructor
-    public class EmbProductOption {
+    public static class EmbProductOption {
         private String color;
         private String size;
         private String displayColor;
