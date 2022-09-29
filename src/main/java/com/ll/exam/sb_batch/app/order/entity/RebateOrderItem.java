@@ -50,14 +50,23 @@ public class RebateOrderItem extends BaseEntity {
     private int payPrice; // 결제금액
     private int refundPrice; // 환불금액
     private int refundQuantity; // 환불한 개수
-    private boolean isPaid;
+    private boolean isPaid; // 결제여부
+
+    // 상품
+    private String productName;
+
+    // 상품 옵션
+    private String productOptionColor;
+    private String productOptionSize;
+    private String productOptionDisplayColor;
+    private String productOptionDisplaySize;
 
     public RebateOrderItem(OrderItem orderItem) {
         this.orderItem = orderItem;
         order = orderItem.getOrder();
         productOption = orderItem.getProductOption();
         quantity = orderItem.getQuantity();
-        price = orderItem.getPrice();
+        payPrice = orderItem.getPayPrice();
         salePrice = orderItem.getSalePrice();
         wholesalePrice = orderItem.getWholesalePrice();
         pgFee = orderItem.getPgFee();
@@ -65,30 +74,14 @@ public class RebateOrderItem extends BaseEntity {
         refundPrice = orderItem.getRefundPrice();
         refundQuantity = orderItem.getRefundQuantity();
         isPaid = orderItem.isPaid();
-    }
 
-    public RebateOrderItem(ProductOption productOption, int quantity) {
-        this.productOption = productOption;
-        this.quantity = quantity;
-        this.price = productOption.getPrice();
-        this.salePrice = productOption.getSalePrice();
-        this.wholesalePrice = productOption.getWholesalePrice();
-    }
+        // 상품
+        productName = orderItem.getProductOption().getProduct().getName();
 
-    public int calculatePayPrice() {
-        return salePrice * quantity;
-    }
-
-    public void setPaymentDone() {
-        this.pgFee = 0;
-        this.payPrice = calculatePayPrice();
-        this.isPaid = true;
-    }
-
-    public void setRefundDone() {
-        if (refundQuantity == quantity) return;
-
-        this.refundQuantity = quantity;
-        this.refundPrice = payPrice;
+        // 사품 옵션 추가 데이터
+        productOptionColor = orderItem.getProductOption().getColor();
+        productOptionSize = orderItem.getProductOption().getSize();
+        productOptionDisplayColor = orderItem.getProductOption().getDisplayColor();
+        productOptionDisplaySize = orderItem.getProductOption().getDisplaySize();
     }
 }
