@@ -10,7 +10,12 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
@@ -58,10 +63,15 @@ public class RebateOrderItem extends BaseEntity {
     private String productName;
 
     // 상품 옵션
-    private String productOptionColor;
-    private String productOptionSize;
-    private String productOptionDisplayColor;
-    private String productOptionDisplaySize;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "color", column = @Column(name = "product_option_color")),
+            @AttributeOverride(name = "size", column = @Column(name = "product_option_size")),
+            @AttributeOverride(name = "displayColor", column = @Column(name = "product_option_display_color")),
+            @AttributeOverride(name = "displaySize", column = @Column(name = "product_option_display_size")),
+
+    })
+    private RebateOrderItem.EmbProductOption embProductOption;
 
     // 주문 시간
     private LocalDateTime orderItemCreateDate;
@@ -83,13 +93,27 @@ public class RebateOrderItem extends BaseEntity {
         // 상품 추가 데이터
         productName = orderItem.getProductOption().getProduct().getName();
 
-        // 사품 옵션 추가 데이터
-        productOptionColor = orderItem.getProductOption().getColor();
-        productOptionSize = orderItem.getProductOption().getSize();
-        productOptionDisplayColor = orderItem.getProductOption().getDisplayColor();
-        productOptionDisplaySize = orderItem.getProductOption().getDisplaySize();
+        // 상품 옵션 추가 데이터
+        embProductOption = new EmbProductOption(orderItem.getProductOption());
 
         // 주문 시간 추가 데이터
         orderItemCreateDate = orderItem.getCreateDate();
+    }
+
+    @Embeddable
+    @NoArgsConstructor
+    public class EmbProductOption {
+        private String color;
+        private String size;
+        private String displayColor;
+        private String displaySize;
+
+        public EmbProductOption(ProductOption productOption) {
+            color = productOption.getColor();
+            size = productOption.getSize();
+            displayColor = productOption.getDisplayColor();
+            displaySize = productOption.getDisplaySize();
+        }
+
     }
 }
